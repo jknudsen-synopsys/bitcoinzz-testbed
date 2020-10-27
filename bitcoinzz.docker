@@ -4,10 +4,12 @@ RUN apt-get update && apt-get install -y wget net-tools
 
 WORKDIR /root
 
-RUN wget https://bitcoincore.org/bin/bitcoin-core-0.20.1/bitcoin-0.20.1-x86_64-linux-gnu.tar.gz
-RUN tar zxvf bitcoin-0.20.1-x86_64-linux-gnu.tar.gz && rm bitcoin-0.20.1-x86_64-linux-gnu.tar.gz
+ARG VERSION=0.20.1
 
-ENV PATH="/root/bitcoin-0.20.1/bin:${PATH}"
+RUN wget https://bitcoincore.org/bin/bitcoin-core-$VERSION/bitcoin-$VERSION-x86_64-linux-gnu.tar.gz
+RUN tar zxvf bitcoin-$VERSION-x86_64-linux-gnu.tar.gz && rm bitcoin-$VERSION-x86_64-linux-gnu.tar.gz
+
+ENV PATH="/root/bitcoin-$VERSION/bin:${PATH}"
 
 RUN echo "bitcoind -regtest -fallbackfee=0.0002 -daemon" >> ~/.bashrc
 RUN echo "alias rt='bitcoin-cli -regtest'" >> ~/.bashrc
